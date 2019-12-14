@@ -1,6 +1,9 @@
 
+// selects all from table, once it comes back, will send out as json, if not will say it doesn't exist. 
+// .then is a promise function, nice way to write callbacks, can chain things. before, with callbacks, callback hell, would have to nest a ton of them. 
 const getTableData = (req, res, db) => {
     db.select('*').from('testtable1')
+    // items just generic name being used as a reference
       .then(items => {
         if(items.length){
           res.json(items)
@@ -8,9 +11,12 @@ const getTableData = (req, res, db) => {
           res.json({dataExists: 'false'})
         }
       })
+      // could make other requests using .then() here
+      // but now supplanted by async await syntax
+      // error catcher will happen if any .then in chain has error
       .catch(err => res.status(400).json({dbError: 'db error'}))
   }
-  
+
   const postTableData = (req, res, db) => {
     const { first, last, email, phone, location, hobby } = req.body
     const added = new Date()
