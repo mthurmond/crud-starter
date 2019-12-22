@@ -57,7 +57,8 @@ const app = express()
 // whitelist for CORS, response to single origin policy of browser
 // browsers don't auto-accept stuff from sources page didn't come from
 // so if accessing external API from different source, requires CORS
-// headers to enable it. other than 3000, only 3001 can access API.
+// headers to enable it. 
+// by whitelisting 3001 below, that means that only ports 3000 and 3001 can access API.
 // if putting star (*) everyone could access it
 const whitelist = ['http://localhost:3001']
 const corsOptions = {
@@ -98,6 +99,7 @@ app.get('/crud', (req, res) => main.getTableData(req, res, db))
 app.post('/crud', (req, res) => main.postTableData(req, res, db))
 app.put('/crud', (req, res) => main.putTableData(req, res, db))
 app.delete('/crud', (req, res) => main.deleteTableData(req, res, db))
+app.get('*', (req, res) => res.send('sorry, nothing here, try another URL')) //added this one
 
 // App Server Connection
 // if not explicitly defining port, will default to 3000
